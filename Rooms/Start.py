@@ -21,4 +21,5 @@ class Start(Level):
         self.set_timer(90, self.start_game)
 
     def start_game(self):
+        Globals.SCORE = 0
         self.running = False

@@ -9,6 +9,10 @@ class Creek(Level):
 
         self.grow_count = 0
         self.facing = Globals.down
+        
+        self.speed = 8
+        self.speed_count = 20
+        self.speed_counter = 1
 
         self.key_listener = KeyListener(self, 1, 1)
         self.add_room_object(self.key_listener)
@@ -28,7 +32,7 @@ class Creek(Level):
 
     def move_snake(self):
         self.grow_count += 1
-        self.grow_count %= 6
+        self.grow_count %= self.speed
         if self.grow_count:
             tail_block = self.eel.pop()
             tail_block.x = self.eel[0].x
@@ -52,7 +56,13 @@ class Creek(Level):
             self.end_game()
 
         self.eel.insert(0, tail_block)
-        self.set_timer(10, self.move_snake)
+        self.set_timer(self.speed, self.move_snake)
+        if self.speed > 2:
+            self.speed_counter += 1
+            self.speed_counter %= self.speed_count
+            if not self.speed_counter:
+                self.speed -= 1
+                self.speed_count += self.speed_count
 
     def right_key(self):
         self.facing += 1
